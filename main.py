@@ -42,13 +42,15 @@ def save():
                 data_file.write(f"{website} / {email} / {password}\n")
                 website_entry.delete(0, END)
                 password_entry.delete(0, END)
-
+        else:
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 
 window = Tk()
 window.title("Password")
-window.config(padx=40, pady=40)
+window.config(padx=50, pady=50)
 
 canvas = Canvas(width=200, height=200)
 logo_img = PhotoImage(file="logo.png")
@@ -65,18 +67,21 @@ password_label.grid(row=3, column=0)
 
 # Entries
 website_entry = Entry(width=35)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry.grid(row=1, column=1)
 website_entry.focus()
 email_entry = Entry(width=35)
-email_entry.grid(row=2, column=1, columnspan=2)
+email_entry.grid(row=2, column=1)
 email_entry.insert(0, "o2r@naver.com")
-password_entry = Entry(width=19)
+
+# Adjust the password entry to take up a full row with the button
+password_entry = Entry(width=35)
 password_entry.grid(row=3, column=1)
 
 # Button
 generate_password_button = Button(text="Generate Password", command=generate_password)
-generate_password_button.grid(row=3, column=2)
+generate_password_button.grid(row=3, column=2, padx=20)  # Adjust the position slightly
+
 add_button = Button(text="Add", width=35, command=save)
-add_button.grid(row=4, column=1, columnspan=2)
+add_button.grid(row=4, column=1)
 
 window.mainloop()
