@@ -39,7 +39,7 @@ def save():
     }
 
     if len(website) == 0 or len(password) == 0:
-        messagebox.showinfo(title="Oops", message="please make sure you haven't left any fields empty.")
+        messagebox.showinfo(title="Oops", message="Please make sure you haven't left any fields empty.")
     else:
         try:
             with open("data.json", "r") as data_file:
@@ -58,6 +58,21 @@ def save():
             password_entry.delete(0, END)
 
 
+def find_password():
+    website = website_entry.get()
+    try:
+        with open("data.json") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No Data File Found.")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Error", message=f"No details for {website} exists.")
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 window = Tk()
@@ -66,7 +81,7 @@ window.config(padx=50, pady=50)
 
 canvas = Canvas(width=200, height=200)
 logo_img = PhotoImage(file="logo.png")
-canvas.create_image(100, 100, image=logo_img)
+canvas.create_image(130, 100, image=logo_img)
 canvas.grid(row=0, column=1)
 
 # Label
@@ -95,5 +110,8 @@ generate_password_button.grid(row=3, column=2, padx=20)  # Adjust the position s
 
 add_button = Button(text="Add", width=35, command=save)
 add_button.grid(row=4, column=1)
+
+search_button = Button(text="Search", width=15, command=find_password)
+search_button.grid(row=1, column=2)
 
 window.mainloop()
